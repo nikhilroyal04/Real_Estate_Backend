@@ -87,7 +87,7 @@ class PropertyService {
     }
   }
 
-async togglePropertyStatus(propertyId) {
+async updatePropertyStatus(propertyId) {
   try {
     const property = await Property.findById(propertyId);
     if (!property) {
