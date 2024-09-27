@@ -266,11 +266,8 @@ router.delete('/deleteProperty/:id', async (req, res) => {
 // Update property status by ID
 router.put('/removeProperty/:id', async (req, res) => {
   try {
-    const { status } = req.body;
 
-    if (!status) return ResponseManager.handleBadRequestError(res, 'Status is required');
-
-    const propertyData = await PropertyService.updatePropertyStatus(req.params.id, status);
+    const propertyData = await PropertyService.updatePropertyStatus(req.params.id);
 
     if (!propertyData) {
       return ResponseManager.sendSuccess(res, [], 200, 'Property not found');
