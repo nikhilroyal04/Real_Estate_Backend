@@ -87,27 +87,29 @@ class PropertyService {
     }
   }
 
-  async updatePropertyStatus(propertyId, newStatus) {
-    try {
-      const property = await Property.findById(propertyId);
-      if (!property) {
-        consoleManager.error("Property not found for status update");
-        return null;
-      }
-
-      const updatedProperty = await Property.findByIdAndUpdate(
-        propertyId,
-        { status: newStatus, updatedOn: Date.now() },
-        { new: true }
-      );
-
-      consoleManager.log(`Property status updated to ${newStatus}`);
-      return updatedProperty;
-    } catch (err) {
-      consoleManager.error(`Error updating property status: ${err.message}`);
-      throw err;
+async togglePropertyStatus(propertyId) {
+  try {
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      consoleManager.error("Property not found for status toggle");
+      return null;
     }
+
+    // Toggle the status between 'Active' and 'Inactive'
+    const newStatus = property.status === "Active" ? "Inactive" : "Active";
+    const updatedProperty = await Property.findByIdAndUpdate(
+      propertyId,
+      { status: newStatus, updatedOn: Date.now() },
+      { new: true }
+    );
+
+    consoleManager.log(`Property status updated to ${newStatus}`);
+    return updatedProperty;
+  } catch (err) {
+    consoleManager.error(`Error updating property status: ${err.message}`);
+    throw err;
   }
+}
 
   // New method to get the number of properties
   async getNumberOfProperties() {
